@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoNexus Development Roadmap - The Journey to Live</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="header-left">
+                    <div class="logo">🌱</div>
+                    <div>
+                        <h1 class="header-title">EcoNexus Development Roadmap</h1>
+                        <p class="header-subtitle">The Journey to Live - Complete Feature Map</p>
+                    </div>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">7</div>
+                        <div class="stat-label">Checkpoints</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">150+</div>
+                        <div class="stat-label">Features</div>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="btn-control" id="expandAllBtn">
+                        <span class="icon">↓</span>
+                        <span class="label">Expand All</span>
+                    </button>
+                    <button class="btn-control" id="collapseAllBtn">
+                        <span class="icon">↑</span>
+                        <span class="label">Collapse All</span>
+                    </button>
+
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Center Canvas (Roadmap) -->
+            <main class="roadmap-canvas">
+                <div class="roadmap-scroll" id="roadmapScroll">
+                    <div class="roadmap-nodes" id="roadmapNodes">
+                        <!-- Pulsing Arrows Container -->
+                        <div class="arrows-container" id="arrowsContainer"></div>
+            
+            <!-- Start Node -->
+            <div class="checkpoint-node start-node" data-checkpoint="start" style="left: 80px; top: 100px;">
+                <div class="node-circle" style="background: #6B46C1;">
+                    <span class="node-icon">🚀</span>
+                </div>
+                <div class="node-label">START</div>
+                <div class="node-title">Project Foundation</div>
+            </div>
+
+            <!-- Checkpoint 1 -->
+            <div class="checkpoint-node" data-checkpoint="checkpoint1" style="left: 330px; top: 100px;">
+                <div class="node-circle" style="background: #6B46C1;">
+                    <span class="node-icon">🏗️</span>
+                    <span class="node-number">#1</span>
+                </div>
+                <div class="node-label">CHECKPOINT #1</div>
+                <div class="node-title">MVP CORE</div>
+                <div class="node-metric">15 Features</div>
+                <button class="expand-btn">Expand ↓</button>
+            </div>
+
+            <!-- Checkpoint 2 -->
+            <div class="checkpoint-node" data-checkpoint="checkpoint2" style="left: 580px; top: 100px;">
+                <div class="node-circle" style="background: #6B46C1;">
+                    <span class="node-icon">✨</span>
+                    <span class="node-number">#2</span>
+                </div>
+                <div class="node-label">CHECKPOINT #2</div>
+                <div class="node-title">ENHANCED FEATURES</div>
+                <div class="node-metric">20 Features</div>
+                <button class="expand-btn">Expand ↓</button>
+            </div>
+
+            <!-- Checkpoint 3 -->
+            <div class="checkpoint-node" data-checkpoint="checkpoint3" style="left: 830px; top: 100px;">
+                <div class="node-circle" style="background: #06B6D4;">
+                    <span class="node-icon">🤖</span>
+                    <span class="node-number">#3</span>
+                </div>
+                <div class="node-label">CHECKPOINT #3</div>
+                <div class="node-title">COMMUNITY &amp; AI</div>
+                <div class="node-metric">25 Features</div>
+                <button class="expand-btn">Expand ↓</button>
+            </div>
+
+            <!-- Checkpoint 4 -->
+            <div class="checkpoint-node" data-checkpoint="checkpoint4" style="left: 1080px; top: 100px;">
+                <div class="node-circle" style="background: #6B46C1;">
+                    <span class="node-icon">⚡</span>
+                    <span class="node-number">#4</span>
+                </div>
+                <div class="node-label">CHECKPOINT #4</div>
+                <div class="node-title">SCALE &amp; OPTIMIZATION</div>
+                <div class="node-metric">18 Features</div>
+                <button class="expand-btn">Expand ↓</button>
+            </div>
+
+            <!-- Checkpoint 5 -->
+            <div class="checkpoint-node" data-checkpoint="checkpoint5" style="left: 1330px; top: 100px;">
+                <div class="node-circle" style="background: #0066FF;">
+                    <span class="node-icon">🔗</span>
+                    <span class="node-number">#5</span>
+                </div>
+                <div class="node-label">CHECKPOINT #5</div>
+                <div class="node-title">ADVANCED INTEGRATIONS</div>
+                <div class="node-metric">16 Features</div>
+                <button class="expand-btn">Expand ↓</button>
+            </div>
+
+            <!-- Checkpoint 6A (B2B) -->
+            <div class="checkpoint-node branch-node" data-checkpoint="checkpoint6a" style="left: 650px; top: 350px;">
+                <div class="node-circle" style="background: #6B46C1;">
+                    <span class="node-icon">🏢</span>
+                    <span class="node-number">#6A</span>
+                </div>
+                <div class="node-label">CHECKPOINT #6A</div>
+                <div class="node-title">MARKET LEADERSHIP (B2B)</div>
+                <div class="node-metric">20 Features</div>
+                <button class="expand-btn">Expand ↓</button>
+            </div>
+
+            <!-- Checkpoint 6B (B2C) -->
+            <div class="checkpoint-node branch-node" data-checkpoint="checkpoint6b" style="left: 1000px; top: 350px;">
+                <div class="node-circle" style="background: #06B6D4;">
+                    <span class="node-icon">📱</span>
+                    <span class="node-number">#6B</span>
+                </div>
+                <div class="node-label">CHECKPOINT #6B</div>
+                <div class="node-title">MARKET LEADERSHIP (B2C)</div>
+                <div class="node-metric">18 Features</div>
+                <button class="expand-btn">Expand ↓</button>
+            </div>
+
+            <!-- Continuous Improvement -->
+            <div class="checkpoint-node end-node" data-checkpoint="continuous" style="left: 1350px; top: 350px;">
+                <div class="node-circle" style="background: #10B981;">
+                    <span class="node-icon">🔄</span>
+                    <span class="node-number">∞</span>
+                </div>
+                <div class="node-label">CONTINUOUS</div>
+                <div class="node-title">Improvement Cycle</div>
+                <div class="node-metric">8 Features</div>
+                <button class="expand-btn">Expand ↓</button>
+            </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Details Panel (Slides from right) -->
+        <div class="details-panel" id="detailsPanel">
+            <div class="panel-header">
+                <h2 class="panel-title" id="panelTitle">Details</h2>
+                <button class="panel-close" id="panelClose">&times;</button>
+            </div>
+            <div class="panel-body" id="panelBody">
+                <!-- Content loaded dynamically -->
+            </div>
+        </div>
+
+        <!-- Overlay for panel -->
+        <div class="panel-overlay" id="panelOverlay"></div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <button class="nav-btn" id="prevBtn" disabled>
+                        <span>← Previous</span>
+                    </button>
+                    <div class="progress-indicator">
+                        <span id="currentCheckpoint">1</span> / <span id="totalCheckpoints">7</span> Checkpoints
+                    </div>
+                    <button class="nav-btn" id="nextBtn">
+                        <span>Next →</span>
+                    </button>
+                </div>
+                <div class="footer-right">
+                    <button class="zoom-btn" id="zoomOutBtn">−</button>
+                    <span class="zoom-level" id="zoomLevel">100%</span>
+                    <button class="zoom-btn" id="zoomInBtn">+</button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
