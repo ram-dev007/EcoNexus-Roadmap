@@ -269,84 +269,34 @@ const checkpointOrder = ['start', 'checkpoint1', 'checkpoint2', 'checkpoint3', '
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
-  createPulsingArrows();
   setupEventListeners();
   updateNavigationState();
-  window.addEventListener('resize', () => {
-    createPulsingArrows();
-  });
+  applyView('horizontal'); // Set default view
 });
 
-// Create Pulsing Arrows between checkpoints
-function createPulsingArrows() {
-  const container = document.getElementById('arrowsContainer');
-  if (!container) return;
+// Update arrow symbols based on view
+function updateArrowSymbols() {
+  const arrows = document.querySelectorAll('.pulse-arrow-symbol');
+  const symbol = currentView === 'horizontal' ? '→' : '↓';
   
-  // Clear existing arrows
-  container.innerHTML = '';
-
-  if (currentView === 'vertical') return;
-
-  // Helper function to get node center position
-  const getNodeCenter = (checkpointId) => {
-    const node = document.querySelector(`[data-checkpoint="${checkpointId}"]`);
-    if (!node) return null;
-    const rect = node.getBoundingClientRect();
-    const containerRect = document.querySelector('.roadmap-nodes').getBoundingClientRect();
-    return {
-      x: rect.left - containerRect.left + rect.width / 2,
-      y: rect.top - containerRect.top + rect.height / 2
-    };
-  };
-
-  // Arrow configuration with proper spacing
-  const arrows = [
-    { from: 'start', to: 'checkpoint1', symbol: '→', offsetY: 130 },
-    { from: 'checkpoint1', to: 'checkpoint2', symbol: '→', offsetY: 130 },
-    { from: 'checkpoint2', to: 'checkpoint3', symbol: '→', offsetY: 130 },
-    { from: 'checkpoint3', to: 'checkpoint4', symbol: '→', offsetY: 130 },
-    { from: 'checkpoint4', to: 'checkpoint5', symbol: '→', offsetY: 130 },
-    { from: 'checkpoint5', to: 'checkpoint6a', symbol: '↓', offsetY: 0 },
-    { from: 'checkpoint6a', to: 'checkpoint6b', symbol: '→', offsetY: 380 },
-    { from: 'checkpoint6b', to: 'continuous', symbol: '→', offsetY: 380 }
-  ];
-
-  // Create each arrow with proper positioning
-  arrows.forEach(arrowConfig => {
-    const fromPos = getNodeCenter(arrowConfig.from);
-    const toPos = getNodeCenter(arrowConfig.to);
-    
-    if (fromPos && toPos) {
-      const arrow = document.createElement('div');
-      arrow.className = 'pulse-arrow';
-      
-      // Calculate midpoint position with offsets
-      let midX = (fromPos.x + toPos.x) / 2;
-      let midY = (fromPos.y + toPos.y) / 2;
-      
-      // Apply offsets to prevent overlap
-      if (arrowConfig.offsetX) {
-        midX += arrowConfig.offsetX;
-      }
-      if (arrowConfig.offsetY) {
-        midY += arrowConfig.offsetY;
-      }
-      
-      arrow.style.left = `${midX}px`;
-      arrow.style.top = `${midY}px`;
-      
-      const symbol = document.createElement('span');
-      symbol.className = 'pulse-arrow-symbol';
-      symbol.textContent = arrowConfig.symbol;
-      
-      arrow.appendChild(symbol);
-      container.appendChild(arrow);
-    }
+  arrows.forEach(arrow => {
+    arrow.textContent = symbol;
   });
 }
 
 // Setup Event Listeners
 function setupEventListeners() {
+  // View Toggle Buttons
+  const horizontalViewBtn = document.getElementById('horizontalViewBtn');
+  const verticalViewBtn = document.getElementById('verticalViewBtn');
+  
+  if (horizontalViewBtn) {
+    horizontalViewBtn.addEventListener('click', () => switchView('horizontal'));
+  }
+  
+  if (verticalViewBtn) {
+    verticalViewBtn.addEventListener('click', () => switchView('vertical'));
+  }
 
   // Expand/Collapse All
   const expandAllBtn = document.getElementById('expandAllBtn');
@@ -473,6 +423,13 @@ function expandCheckpoint(checkpointId, node) {
   const checkpoint = roadmapData.checkpoints[checkpointId];
   if (!checkpoint.features) return;
   
+  // Close any existing feature cards
+  const existingCards = document.querySelector('.feature-cards.active');
+  if (existingCards) {
+    existingCards.classList.remove('active');
+    setTimeout(() => existingCards.remove(), 300);
+  }
+  
   const cardsContainer = document.createElement('div');
   cardsContainer.className = 'feature-cards';
   
@@ -522,7 +479,39 @@ function expandCheckpoint(checkpointId, node) {
     cardsContainer.appendChild(techSection);
   }
   
-  node.appendChild(cardsContainer);
+  // Append to body instead of node for fixed positioning
+  document.body.appendChild(cardsContainer);
+  
+  // Add close button
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'panel-close';
+  closeBtn.innerHTML = '&times;';
+  closeBtn.style.position = 'absolute';
+  closeBtn.style.top = '16px';
+  closeBtn.style.right = '16px';
+  closeBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    cardsContainer.classList.remove('active');
+    setTimeout(() => cardsContainer.remove(), 300);
+    expandedCheckpoints.delete(checkpointId);
+  });
+  cardsContainer.insertBefore(closeBtn, cardsContainer.firstChild);
+  
+  // Add overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'panel-overlay active';
+  overlay.style.zIndex = '450';
+  overlay.addEventListener('click', () => {
+    cardsContainer.classList.remove('active');
+    overlay.classList.remove('active');
+    setTimeout(() => {
+      cardsContainer.remove();
+      overlay.remove();
+    }, 300);
+    expandedCheckpoints.delete(checkpointId);
+  });
+  document.body.appendChild(overlay);
+  
   setTimeout(() => {
     cardsContainer.classList.add('active');
   }, 10);
@@ -715,4 +704,45 @@ function adjustZoom(delta) {
   if (zoomLevelEl) {
     zoomLevelEl.textContent = `${zoomLevel}%`;
   }
+}
+
+// Switch View (Horizontal/Vertical)
+function switchView(view) {
+  if (view === currentView) return;
+  
+  currentView = view;
+  
+  // Update button states
+  const horizontalBtn = document.getElementById('horizontalViewBtn');
+  const verticalBtn = document.getElementById('verticalViewBtn');
+  
+  if (horizontalBtn && verticalBtn) {
+    if (view === 'horizontal') {
+      horizontalBtn.classList.add('active');
+      verticalBtn.classList.remove('active');
+    } else {
+      verticalBtn.classList.add('active');
+      horizontalBtn.classList.remove('active');
+    }
+  }
+  
+  // Apply the view transition
+  applyView(view);
+}
+
+// Apply View Layout
+function applyView(view) {
+  const roadmapScroll = document.getElementById('roadmapScroll');
+  
+  if (!roadmapScroll) return;
+  
+  // Add/remove vertical view class
+  if (view === 'vertical') {
+    roadmapScroll.classList.add('vertical-view');
+  } else {
+    roadmapScroll.classList.remove('vertical-view');
+  }
+  
+  // Update arrow symbols
+  updateArrowSymbols();
 }

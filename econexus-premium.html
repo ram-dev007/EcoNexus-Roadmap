@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoNexus Development Roadmap - Premium Edition</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+        }
+
+        /* Background Animations */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.3);
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes glowPulse {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(34, 197, 94, 0.5), 0 0 40px rgba(34, 197, 94, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(34, 197, 94, 0.8), 0 0 60px rgba(34, 197, 94, 0.4);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                max-height: 500px;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        /* Background Styles */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-gradient {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(-45deg, #22C55E, #0EA5E9, #8B5CF6, #0D9488);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            animation: floatUp linear infinite;
+        }
+
+        /* Header Styles */
+        .premium-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 300ms ease;
+        }
+
+        .logo-container:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-img {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+            transition: all 300ms ease;
+        }
+
+        .logo-img:hover {
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.7);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #22C55E, #0EA5E9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            font-size: 24px;
+        }
+
+        /* Checkpoint Gradient Styles */
+        .checkpoint-gradient-start {
+            background: linear-gradient(135deg, #22C55E, #84CC16);
+        }
+
+        .checkpoint-gradient-1 {
+            background: linear-gradient(135deg, #22C55E, #0EA5E9);
+        }
+
+        .checkpoint-gradient-2 {
+            background: linear-gradient(135deg, #0EA5E9, #06B6D4);
+        }
+
+        .checkpoint-gradient-3 {
+            background: linear-gradient(135deg, #06B6D4, #8B5CF6);
+        }
+
+        .checkpoint-gradient-4 {
+            background: linear-gradient(135deg, #8B5CF6, #0D9488);
+        }
+
+        .checkpoint-gradient-5 {
+            background: linear-gradient(135deg, #0D9488, #059669);
+        }
+
+        .checkpoint-gradient-6a {
+            background: linear-gradient(135deg, #0D9488, #14B8A6);
+        }
+
+        .checkpoint-gradient-6b {
+            background: linear-gradient(135deg, #0EA5E9, #0369A1);
+        }
+
+        .checkpoint-gradient-continuous {
+            background: linear-gradient(135deg, #059669, #10B981);
+        }
+
+        /* Advanced Card Styles */
+        .premium-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            transition: all 300ms ease;
+            animation: fadeIn 600ms ease forwards;
+        }
+
+        .premium-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .checkpoint-card {
+            padding: 28px;
+            text-align: center;
+            width: 240px;
+            flex-shrink: 0;
+        }
+
+        .checkpoint-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 32px;
+            color: white;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            position: relative;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .checkpoint-number {
+            position: absolute;
+            bottom: -8px;
+            right: -8px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .checkpoint-title {
+            font-weight: 700;
+            font-size: 16px;
+            color: white;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .checkpoint-description {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 12px;
+        }
+
+        .feature-count {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .expand-button {
+            width: 100%;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 300ms ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .expand-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Feature List */
+        .features-list {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideDown 300ms ease forwards;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .feature-item {
+            text-align: left;
+            padding: 8px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 200ms ease;
+        }
+
+        .feature-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Arrow Styles */
+        .arrow-container {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            backdrop-filter: blur(10px);
+            animation: pulse 2s infinite ease-in-out;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+            flex-shrink: 0;
+        }
+
+        .arrow-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #22C55E;
+        }
+
+        /* Control Buttons */
+        .control-button {
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 300ms ease;
+            backdrop-filter: blur(10px);
+            color: white;
+        }
+
+        .expand-all-btn {
+            background: linear-gradient(135deg, #22C55E, #16A34A);
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+        }
+
+        .expand-all-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(34, 197, 94, 0.5);
+        }
+
+        .collapse-all-btn {
+            background: linear-gradient(135deg, #EF4444, #DC2626);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .collapse-all-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(239, 68, 68, 0.5);
+        }
+
+        .view-toggle {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 4px;
+            display: flex;
+            gap: 4px;
+        }
+
+        .view-toggle-btn {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 300ms ease;
+        }
+
+        .view-toggle-btn.active {
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
+        }
+
+        /* Containers */
+        .horizontal-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 40px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            min-height: 500px;
+            padding: 40px 20px;
+            scroll-behavior: smooth;
+        }
+
+        .vertical-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 60px;
+            width: 100%;
+            padding: 40px 20px;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Footer */
+        .premium-footer {
+            margin-top: 40px;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .footer-card h3 {
+            font-weight: 700;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .footer-card p {
+            font-size: 13px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body class="bg-black overflow-x-hidden">
+    {/* Animated Background */}
+    <div class="animated-bg">
+        <div class="bg-gradient"></div>
+        <div class="floating-particles" id="particles"></div>
+    </div>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            if (!container) return;
+
+            const colors = ['#22C55E', '#0EA5E9', '#8B5CF6', '#0D9488', '#F59E0B', '#06B6D4'];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+
+                const size = Math.random() * 80 + 20;
+                const left = Math.random() * 100;
+                const duration = Math.random() * 4 + 4;
+                const delay = Math.random() * 5;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = left + '%';
+                particle.style.bottom = '-100px';
+                particle.style.background = color;
+                particle.style.opacity = Math.random() * 0.3 + 0.1;
+                particle.style.animationDuration = duration + 's';
+                particle.style.animationDelay = delay + 's';
+
+                container.appendChild(particle);
+            }
+        }
+
+        // Feature data (simplified for space)
+        const checkpointsData = [
+            {
+                id: 'start',
+                number: 0,
+                title: 'START',
+                icon: '🚀',
+                color: 'start',
+                features: 5,
+                description: 'Project Foundation'
+            },
+            {
+                id: 'checkpoint1',
+                number: 1,
+                title: 'MVP CORE',
+                icon: '🏗️',
+                color: '1',
+                features: 15,
+                description: 'Foundation Layer'
+            },
+            {
+                id: 'checkpoint2',
+                number: 2,
+                title: 'ENHANCED FEATURES',
+                icon: '✨',
+                color: '2',
+                features: 20,
+                description: 'Smart Layer'
+            },
+            {
+                id: 'checkpoint3',
+                number: 3,
+                title: 'COMMUNITY & AI',
+                icon: '🤖',
+                color: '3',
+                features: 25,
+                description: 'Intelligence Layer'
+            },
+            {
+                id: 'checkpoint4',
+                number: 4,
+                title: 'SCALE & OPTIMIZE',
+                icon: '⚡',
+                color: '4',
+                features: 18,
+                description: 'Performance Layer'
+            },
+            {
+                id: 'checkpoint5',
+                number: 5,
+                title: 'ADVANCED INTEGRATIONS',
+                icon: '🔗',
+                color: '5',
+                features: 16,
+                description: 'Ecosystem Layer'
+            },
+            {
+                id: 'checkpoint6a',
+                number: '6A',
+                title: 'MARKET LEADERSHIP (B2B)',
+                icon: '🏢',
+                color: '6a',
+                features: 20,
+                description: 'Enterprise Path'
+            },
+            {
+                id: 'checkpoint6b',
+                number: '6B',
+                title: 'MARKET LEADERSHIP (B2C)',
+                icon: '📱',
+                color: '6b',
+                features: 18,
+                description: 'Consumer Path'
+            },
+            {
+                id: 'continuous',
+                number: '∞',
+                title: 'Continuous Improvement',
+                icon: '🔄',
+                color: 'continuous',
+                features: 8,
+                description: 'Ongoing Excellence'
+            }
+        ];
+
+        const sampleFeatures = {
+            'Features include: Authentication, Database, UI Components, Testing, Documentation',
+        };
+
+        // Arrow Component
+        const Arrow = () => (
+            <div className="arrow-container">
+                <span className="arrow-text">→</span>
+            </div>
+        );
+
+        const VerticalArrow = () => (
+            <div className="arrow-container">
+                <span className="arrow-text">↓</span>
+            </div>
+        );
+
+        // Checkpoint Card Component
+        const CheckpointCard = ({ checkpoint, isExpanded, onToggle }) => {
+            const gradientClass = `checkpoint-gradient-${checkpoint.color}`;
+
+            return (
+                <div className={`premium-card checkpoint-card ${gradientClass}`}>
+                    <div className="checkpoint-circle">
+                        <span>{checkpoint.icon}</span>
+                        <div className="checkpoint-number" style={{
+                            color: checkpoint.color === 'start' ? '#22C55E' : 
+                                   checkpoint.color === '3' ? '#06B6D4' :
+                                   checkpoint.color === '6b' ? '#0EA5E9' :
+                                   checkpoint.color === 'continuous' ? '#059669' : '#6B46C1'
+                        }}>
+                            {checkpoint.number}
+                        </div>
+                    </div>
+
+                    <div className="checkpoint-title">{checkpoint.title}</div>
+                    <div className="checkpoint-description">{checkpoint.description}</div>
+
+                    <div className="feature-count">{checkpoint.features} Features</div>
+
+                    <button 
+                        onClick={onToggle}
+                        className="expand-button"
+                    >
+                        {isExpanded ? 'Collapse ↑' : 'Expand ↓'}
+                    </button>
+
+                    {isExpanded && (
+                        <div className="features-list">
+                            <div className="feature-item">
+                                {checkpoint.title.slice(0, 20)} - Comprehensive feature set with modern architecture, scalability, and best practices implementation.
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // Main App Component
+        const App = () => {
+            const [expandedCheckpoints, setExpandedCheckpoints] = useState(new Set());
+            const [currentView, setCurrentView] = useState('horizontal');
+
+            useEffect(() => {
+                createParticles();
+            }, []);
+
+            const toggleCheckpoint = (id) => {
+                const newSet = new Set(expandedCheckpoints);
+                if (newSet.has(id)) {
+                    newSet.delete(id);
+                } else {
+                    newSet.add(id);
+                }
+                setExpandedCheckpoints(newSet);
+            };
+
+            const expandAll = () => {
+                setExpandedCheckpoints(new Set(checkpointsData.map(c => c.id)));
+            };
+
+            const collapseAll = () => {
+                setExpandedCheckpoints(new Set());
+            };
+
+            return (
+                <div className="relative min-h-screen">
+                    {/* Premium Header */}
+                    <header className="premium-header">
+                        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+                            <div className="logo-container">
+                                <img 
+                                    src="https://i.imgur.com/M7Q8vJb.png"
+                                    alt="EcoNexus Logo"
+                                    className="logo-img"
+                                    onError={(e) => {
+                                        e.target.style.display = 'none';
+                                    }}
+                                />
+                                <div>
+                                    <div className="gradient-text">EcoNexus Development Roadmap</div>
+                                    <p className="text-xs text-gray-300 mt-1">Premium Edition • 150+ Features</p>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center gap-4">
+                                <button 
+                                    onClick={expandAll}
+                                    disabled={expandedCheckpoints.size === checkpointsData.length}
+                                    className="control-button expand-all-btn disabled:opacity-50"
+                                >
+                                    Expand All
+                                </button>
+
+                                <button 
+                                    onClick={collapseAll}
+                                    disabled={expandedCheckpoints.size === 0}
+                                    className="control-button collapse-all-btn disabled:opacity-50"
+                                >
+                                    Collapse All
+                                </button>
+
+                                <div className="view-toggle">
+                                    <button
+                                        onClick={() => setCurrentView('horizontal')}
+                                        className={`view-toggle-btn ${currentView === 'horizontal' ? 'active' : ''}`}
+                                    >
+                                        ↔ Horizontal
+                                    </button>
+                                    <button
+                                        onClick={() => setCurrentView('vertical')}
+                                        className={`view-toggle-btn ${currentView === 'vertical' ? 'active' : ''}`}
+                                    >
+                                        ↕ Vertical
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Main Content */}
+                    <main className="relative z-10">
+                        {currentView === 'horizontal' ? (
+                            <div className="horizontal-container">
+                                {checkpointsData.map((checkpoint, index) => (
+                                    <React.Fragment key={checkpoint.id}>
+                                        <CheckpointCard 
+                                            checkpoint={checkpoint}
+                                            isExpanded={expandedCheckpoints.has(checkpoint.id)}
+                                            onToggle={() => toggleCheckpoint(checkpoint.id)}
+                                        />
+                                        {index < checkpointsData.length - 1 && <Arrow />}
+                                    </React.Fragment>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="vertical-container">
+                                {checkpointsData.map((checkpoint, index) => (
+                                    <React.Fragment key={checkpoint.id}>
+                                        <CheckpointCard 
+                                            checkpoint={checkpoint}
+                                            isExpanded={expandedCheckpoints.has(checkpoint.id)}
+                                            onToggle={() => toggleCheckpoint(checkpoint.id)}
+                                        />
+                                        {index < checkpointsData.length - 1 && <VerticalArrow />}
+                                    </React.Fragment>
+                                ))}
+                            </div>
+                        )}
+                    </main>
+
+                    {/* Premium Footer */}
+                    <footer className="premium-footer">
+                        <div className="footer-grid">
+                            <div className="footer-card">
+                                <h3>🚀 EcoNexus Vision</h3>
+                                <p>Building sustainable AI solutions that drive environmental impact and community action.</p>
+                            </div>
+                            <div className="footer-card">
+                                <h3>📊 Roadmap Stats</h3>
+                                <p><strong>9 Checkpoints</strong> • <strong>150+ Features</strong> • <strong>Production Ready</strong></p>
+                            </div>
+                            <div className="footer-card">
+                                <h3>✨ Premium Design</h3>
+                                <p>Glassmorphism UI • Advanced Animations • Professional Branding</p>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        // Render App
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>

@@ -40,7 +40,17 @@
                         <span class="icon">↑</span>
                         <span class="label">Collapse All</span>
                     </button>
-
+                    <div class="view-toggle">
+                        <span class="view-label">View:</span>
+                        <button class="btn-view active" id="horizontalViewBtn" data-view="horizontal">
+                            <span class="icon">↔</span>
+                            <span class="label">Horizontal</span>
+                        </button>
+                        <button class="btn-view" id="verticalViewBtn" data-view="vertical">
+                            <span class="icon">↕</span>
+                            <span class="label">Vertical</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </header>
@@ -51,11 +61,8 @@
             <main class="roadmap-canvas">
                 <div class="roadmap-scroll" id="roadmapScroll">
                     <div class="roadmap-nodes" id="roadmapNodes">
-                        <!-- Pulsing Arrows Container -->
-                        <div class="arrows-container" id="arrowsContainer"></div>
-            
             <!-- Start Node -->
-            <div class="checkpoint-node start-node" data-checkpoint="start" style="left: 80px; top: 100px;">
+            <div class="checkpoint-node start-node" data-checkpoint="start">
                 <div class="node-circle" style="background: #6B46C1;">
                     <span class="node-icon">🚀</span>
                 </div>
@@ -63,8 +70,13 @@
                 <div class="node-title">Project Foundation</div>
             </div>
 
+            <!-- Arrow -->
+            <div class="pulse-arrow">
+                <span class="pulse-arrow-symbol">→</span>
+            </div>
+
             <!-- Checkpoint 1 -->
-            <div class="checkpoint-node" data-checkpoint="checkpoint1" style="left: 330px; top: 100px;">
+            <div class="checkpoint-node" data-checkpoint="checkpoint1">
                 <div class="node-circle" style="background: #6B46C1;">
                     <span class="node-icon">🏗️</span>
                     <span class="node-number">#1</span>
@@ -75,8 +87,13 @@
                 <button class="expand-btn">Expand ↓</button>
             </div>
 
+            <!-- Arrow -->
+            <div class="pulse-arrow">
+                <span class="pulse-arrow-symbol">→</span>
+            </div>
+
             <!-- Checkpoint 2 -->
-            <div class="checkpoint-node" data-checkpoint="checkpoint2" style="left: 580px; top: 100px;">
+            <div class="checkpoint-node" data-checkpoint="checkpoint2">
                 <div class="node-circle" style="background: #6B46C1;">
                     <span class="node-icon">✨</span>
                     <span class="node-number">#2</span>
@@ -87,8 +104,13 @@
                 <button class="expand-btn">Expand ↓</button>
             </div>
 
+            <!-- Arrow -->
+            <div class="pulse-arrow">
+                <span class="pulse-arrow-symbol">→</span>
+            </div>
+
             <!-- Checkpoint 3 -->
-            <div class="checkpoint-node" data-checkpoint="checkpoint3" style="left: 830px; top: 100px;">
+            <div class="checkpoint-node" data-checkpoint="checkpoint3">
                 <div class="node-circle" style="background: #06B6D4;">
                     <span class="node-icon">🤖</span>
                     <span class="node-number">#3</span>
@@ -99,8 +121,13 @@
                 <button class="expand-btn">Expand ↓</button>
             </div>
 
+            <!-- Arrow -->
+            <div class="pulse-arrow">
+                <span class="pulse-arrow-symbol">→</span>
+            </div>
+
             <!-- Checkpoint 4 -->
-            <div class="checkpoint-node" data-checkpoint="checkpoint4" style="left: 1080px; top: 100px;">
+            <div class="checkpoint-node" data-checkpoint="checkpoint4">
                 <div class="node-circle" style="background: #6B46C1;">
                     <span class="node-icon">⚡</span>
                     <span class="node-number">#4</span>
@@ -111,8 +138,13 @@
                 <button class="expand-btn">Expand ↓</button>
             </div>
 
+            <!-- Arrow -->
+            <div class="pulse-arrow">
+                <span class="pulse-arrow-symbol">→</span>
+            </div>
+
             <!-- Checkpoint 5 -->
-            <div class="checkpoint-node" data-checkpoint="checkpoint5" style="left: 1330px; top: 100px;">
+            <div class="checkpoint-node" data-checkpoint="checkpoint5">
                 <div class="node-circle" style="background: #0066FF;">
                     <span class="node-icon">🔗</span>
                     <span class="node-number">#5</span>
@@ -123,8 +155,13 @@
                 <button class="expand-btn">Expand ↓</button>
             </div>
 
+            <!-- Arrow -->
+            <div class="pulse-arrow">
+                <span class="pulse-arrow-symbol">→</span>
+            </div>
+
             <!-- Checkpoint 6A (B2B) -->
-            <div class="checkpoint-node branch-node" data-checkpoint="checkpoint6a" style="left: 650px; top: 350px;">
+            <div class="checkpoint-node branch-node" data-checkpoint="checkpoint6a">
                 <div class="node-circle" style="background: #6B46C1;">
                     <span class="node-icon">🏢</span>
                     <span class="node-number">#6A</span>
@@ -135,8 +172,13 @@
                 <button class="expand-btn">Expand ↓</button>
             </div>
 
+            <!-- Arrow -->
+            <div class="pulse-arrow">
+                <span class="pulse-arrow-symbol">→</span>
+            </div>
+
             <!-- Checkpoint 6B (B2C) -->
-            <div class="checkpoint-node branch-node" data-checkpoint="checkpoint6b" style="left: 1000px; top: 350px;">
+            <div class="checkpoint-node branch-node" data-checkpoint="checkpoint6b">
                 <div class="node-circle" style="background: #06B6D4;">
                     <span class="node-icon">📱</span>
                     <span class="node-number">#6B</span>
@@ -147,8 +189,13 @@
                 <button class="expand-btn">Expand ↓</button>
             </div>
 
+            <!-- Arrow -->
+            <div class="pulse-arrow">
+                <span class="pulse-arrow-symbol">→</span>
+            </div>
+
             <!-- Continuous Improvement -->
-            <div class="checkpoint-node end-node" data-checkpoint="continuous" style="left: 1350px; top: 350px;">
+            <div class="checkpoint-node end-node" data-checkpoint="continuous">
                 <div class="node-circle" style="background: #10B981;">
                     <span class="node-icon">🔄</span>
                     <span class="node-number">∞</span>
